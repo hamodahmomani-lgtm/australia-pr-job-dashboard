@@ -28,6 +28,9 @@ JOB_CATEGORIES = [
     "Lecturer",
     "Tutor",
     "Policy Analyst",
+    "Senior Policy Officer",
+    "Health Policy Officer",
+    "Program Evaluation Officer",
     "Evaluation Specialist",
     "Government Research Officer",
     "Data Analyst",
@@ -42,7 +45,27 @@ JOB_SOURCES = [
     "Seek",
     "Consulting Firms",
     "Government Departments",
+    "NSW Government",
+    "Victoria Government",
+    "Queensland Government",
+    "SA Government",
+    "WA Government",
+    "ACT Government",
+    "Tasmania Government",
+    "NT Government",
 ]
+
+# Maps Australian state abbreviation → source label used by state gov scrapers
+STATE_GOV_SOURCES: dict[str, str] = {
+    "NSW": "NSW Government",
+    "VIC": "Victoria Government",
+    "QLD": "Queensland Government",
+    "SA":  "SA Government",
+    "WA":  "WA Government",
+    "ACT": "ACT Government",
+    "TAS": "Tasmania Government",
+    "NT":  "NT Government",
+}
 
 EMPLOYMENT_TYPES = [
     "Ongoing Full-time",
@@ -136,6 +159,78 @@ CATEGORY_KEYWORDS: dict[str, list[str]] = {
         "evidence synthesis", "policy brief", "EL1", "EL2", "APS level",
         "social policy", "disability policy", "preventive health policy",
         "causal analysis", "impact assessment",
+        # Government sector terms
+        "policy officer", "policy advice", "policy framework", "policy review",
+        "strategic policy", "whole-of-government", "cross-agency",
+        "regulatory framework", "governance", "program policy",
+        "state government", "public policy", "government department",
+    ],
+    "Senior Policy Officer": [
+        # Core senior policy role terms
+        "senior policy", "senior policy officer", "principal policy", "policy lead",
+        "policy development", "policy advice", "policy framework", "policy review",
+        "strategic policy", "ministerial advice", "cabinet submission",
+        "whole-of-government", "cross-agency", "stakeholder engagement",
+        "consultation", "regulation", "legislation", "APS EL1", "APS EL2",
+        "EL1", "EL2", "senior officer", "lead analyst",
+        # Government context
+        "public sector", "government department", "state government",
+        "federal government", "policy reform", "regulatory reform",
+        "evidence-based policy", "policy implementation",
+        # Mohammad's competencies
+        "health policy", "aged care policy", "social policy", "economic policy",
+        "AIHW", "Department of Health", "Treasury", "evidence synthesis",
+        "impact assessment", "policy brief", "program evaluation",
+        "causal analysis", "population ageing", "preventive health policy",
+    ],
+    "Health Policy Officer": [
+        # Core health policy terms
+        "health policy", "health policy officer", "healthcare policy",
+        "public health policy", "health system", "health regulation",
+        "health program", "health strategy", "health reform",
+        "health financing", "health expenditure", "health governance",
+        "primary care policy", "hospital policy", "mental health policy",
+        "aged care policy", "preventive health", "health promotion",
+        # Australian health sector
+        "AIHW", "Department of Health", "Medicare", "PBS", "TGA", "NDIS",
+        "aged care", "disability policy", "health equity",
+        "Australian health system", "health workforce", "health data",
+        "NHMRC", "health technology assessment", "HTA", "PBAC",
+        # Mohammad's competencies
+        "health economics", "cost-effectiveness", "QALY",
+        "economic evaluation", "health expenditure analysis",
+        "population health", "HILDA", "ALSWH", "SHARE",
+        "panel data", "longitudinal", "functional health", "ageing",
+        "health outcomes", "health services research",
+        # Policy skills
+        "policy analysis", "evidence synthesis", "policy brief",
+        "stakeholder", "ministerial advice", "government",
+    ],
+    "Program Evaluation Officer": [
+        # Core program evaluation terms
+        "program evaluation", "evaluation officer", "monitoring and evaluation",
+        "M&E", "evaluation framework", "evaluation methodology",
+        "evaluation plan", "evaluation design", "evaluation report",
+        "impact assessment", "program outcomes", "program performance",
+        "program monitoring", "logic model", "theory of change",
+        "formative evaluation", "summative evaluation", "process evaluation",
+        "outcome evaluation", "performance measurement", "KPI",
+        # Econometric evaluation methods
+        "economic evaluation", "quasi-experimental", "natural experiment",
+        "counterfactual", "causal inference", "randomised evaluation",
+        "difference-in-differences", "DiD", "regression discontinuity", "RDD",
+        "instrumental variables", "propensity score", "matching methods",
+        "fixed effects", "event study", "interrupted time series",
+        # Data and reporting
+        "data collection", "survey design", "mixed methods",
+        "qualitative research", "quantitative analysis", "statistical analysis",
+        "reporting", "dashboard", "stakeholder reporting",
+        # Government context
+        "government program", "public program", "policy evaluation",
+        "APS", "state government", "community program",
+        # Mohammad's competencies
+        "HILDA", "SHARE", "ALSWH", "Stata", "Python", "R",
+        "health program", "aged care program", "social program",
     ],
     "Evaluation Specialist": [
         # Standard evaluation terms
@@ -149,6 +244,10 @@ CATEGORY_KEYWORDS: dict[str, list[str]] = {
         "causal inference", "counterfactual", "RDD", "DiD",
         "HILDA", "SHARE", "longitudinal evaluation", "quasi-experimental",
         "natural experiment", "discrete choice experiment", "cost-quality assessment",
+        # Expanded evaluation context
+        "evaluation specialist", "evaluation consultant", "evaluation manager",
+        "evaluation lead", "health evaluation", "social evaluation",
+        "program assessment", "policy assessment", "impact measurement",
     ],
     "Government Research Officer": [
         "research officer", "senior research officer", "policy officer",
@@ -204,21 +303,52 @@ CATEGORY_KEYWORDS: dict[str, list[str]] = {
 
 # Search terms calibrated to Mohammad Almomani's target roles and research profile
 SCRAPE_SEARCH_TERMS = [
+    # Health economics & research
     "health economist",
     "research fellow health economics",
     "research fellow economics",
+    "ageing research fellow",
+    "health economics consultant",
+    "applied economist",
+    # Policy roles
     "policy analyst health",
+    "senior policy officer",
+    "policy officer health",
+    "health policy officer",
+    "policy analyst government",
+    "senior policy analyst",
+    # Evaluation roles
     "evaluation specialist",
+    "program evaluation officer",
+    "evaluation officer",
+    "monitoring and evaluation",
+    # Research officer roles
+    "research officer",
+    "senior research officer",
+    "research analyst government",
+    "research officer aged care",
+    # Data & economics roles
     "economist government",
     "data analyst government",
     "business intelligence analyst",
+    "econometrics analyst",
+    # Academic roles
     "lecturer economics",
     "casual academic economics",
-    "research officer aged care",
-    "applied economist",
-    "health economics consultant",
-    "ageing research fellow",
-    "econometrics analyst",
+]
+
+# Curated keyword set for state/territory government portal searches.
+# Kept intentionally short (≤8 terms) to cap per-portal Playwright requests while
+# covering all target role types — policy, evaluation, health, research, data.
+GOV_PORTAL_KEYWORDS = [
+    "policy analyst",
+    "senior policy officer",
+    "health policy officer",
+    "program evaluation officer",
+    "health economist",
+    "research officer",
+    "evaluation officer",
+    "data analyst",
 ]
 
 # ── Default user profile — Mohammad Almomani ──────────────────────────────────

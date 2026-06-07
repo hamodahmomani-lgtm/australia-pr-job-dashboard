@@ -708,8 +708,8 @@ def page_cover_letters():
 def page_settings():
     st.title("Settings")
 
-    tab_profile, tab_telegram, tab_scrapers = st.tabs(
-        ["Profile", "Telegram Notifications", "Scrapers & Schedule"]
+    tab_profile, tab_telegram, tab_scrapers, tab_import = st.tabs(
+        ["Profile", "Telegram Notifications", "Scrapers & Schedule", "CSV Import"]
     )
 
     # ── Profile tab
@@ -823,8 +823,12 @@ To receive job alerts on Telegram:
         st.markdown("---")
         st.subheader("Run Individual Scrapers")
         scraper_names = [
-            "pageup", "seek", "aps_jobs", "deloitte", "kpmg", "pwc", "ey",
-            "government", "csiro",
+            "aps_jobs", "pageup", "csiro", "seek",
+            "deloitte", "kpmg", "pwc", "ey",
+            "government",
+            "nsw_government", "victoria_government", "queensland_government",
+            "sa_government", "wa_government", "act_government",
+            "tasmania_government", "nt_government",
         ]
         sel_scraper = st.selectbox("Scraper", scraper_names)
         if st.button(f"Run {sel_scraper} now"):
@@ -857,6 +861,94 @@ To receive job alerts on Telegram:
             from database import delete_old_jobs
             n = delete_old_jobs(90)
             st.success(f"Removed {n} old job(s).")
+
+    # ── CSV Import tab
+    with tab_import:
+        st.subheader("CSV / Manual Import")
+        st.markdown("""
+Use this when a state government portal cannot be scraped automatically.
+Export job details manually from the portal and paste them into the CSV
+format below, then upload the file here.
+
+**Why use this?** Some portals return 403/429 errors or require login.
+Manual import ensures you never miss a role because of a blocked scraper.
+""")
+
+        # Download template
+        try:
+            from scrapers.import_csv import get_csv_template, load_jobs_from_csv
+            template_csv = get_csv_template()
+            st.download_button(
+                "⬇️ Download CSV template",
+                data=template_csv,
+                file_name="job_import_template.csv",
+                mime="text/csv",
+            )
+        except ImportError:
+            st.warning("CSV import module not available.")
+            template_csv = None
+            load_jobs_from_csv = None
+
+        if load_jobs_from_csv:
+            st.markdown("---")
+            st.markdown("**Option 1 — Upload a CSV file**")
+            uploaded = st.file_uploader("Upload jobs CSV", type=["csv"])
+
+            st.markdown("**Option 2 — Paste CSV text**")
+            pasted_csv = st.text_area("Paste CSV here (include header row)", height=200)
+
+            source_opts = [
+                "NSW Government", "Victoria Government", "Queensland Government",
+                "SA Government", "WA Government", "ACT Government",
+                "Tasmania Government", "NT Government", "Manual Import",
+            ]
+            import_source = st.selectbox("Source label for imported jobs", source_opts)
+
+            if st.button("Import jobs from CSV", use_container_width=True):
+                csv_text = ""
+                if uploaded:
+                    csv_text = uploaded.read().decode("utf-8", errors="replace")
+                elif pasted_csv.strip():
+                    csv_text = pasted_csv.strip()
+
+                if not csv_text:
+                    st.warning("No CSV data provided — upload a file or paste CSV text.")
+                else:
+                    with st.spinner("Importing…"):
+                        try:
+                            jobs = load_jobs_from_csv(csv_text, source=import_source)
+                            if not jobs:
+                                st.warning("No valid jobs found in the CSV. Check the format.")
+                            else:
+                                from database import save_job
+                                new_count = 0
+                                for job in jobs:
+                                    _, is_new = save_job(job)
+                                    if is_new:
+                                        new_count += 1
+                                st.success(
+                                    f"Imported {len(jobs)} job(s): "
+                                    f"{new_count} new, {len(jobs) - new_count} already in database."
+                                )
+                        except Exception as exc:
+                            st.error(f"Import error: {exc}")
+
+            st.markdown("---")
+            st.subheader("State Portal Status")
+            st.markdown("Live status from the last scrape run (from `PORTAL_STATUS`).")
+            try:
+                from scrapers.government import PORTAL_STATUS
+                status_data = [
+                    {"Portal": name, "Status": status.upper()}
+                    for name, status in PORTAL_STATUS.items()
+                ]
+                if status_data:
+                    df_status = pd.DataFrame(status_data)
+                    st.dataframe(df_status, use_container_width=True, hide_index=True)
+                else:
+                    st.info("No portal status recorded yet — run the government scraper first.")
+            except ImportError:
+                st.info("Government scraper module not available.")
 
 
 # ══════════════════════════════════════════════════════════════════════════════

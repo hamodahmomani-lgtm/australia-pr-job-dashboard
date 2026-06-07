@@ -21,32 +21,55 @@ _db_lock = threading.Lock()
 
 def run_scraper(scraper_name: str, keywords: list[str] | None = None) -> dict:
     """Run a single named scraper and save results. Returns summary."""
-    from scrapers.aps_jobs   import APSJobsScraper
-    from scrapers.pageup     import PageUpScraper
-    from scrapers.seek       import SeekScraper
-    from scrapers.consulting import DeloitteScraper, KPMGScraper, PwCScraper, EYScraper
-    from scrapers.government import GovernmentScraper, CSIROScraper
+    from scrapers.aps_jobs    import APSJobsScraper
+    from scrapers.pageup      import PageUpScraper
+    from scrapers.seek        import SeekScraper
+    from scrapers.consulting  import DeloitteScraper, KPMGScraper, PwCScraper, EYScraper
+    from scrapers.government  import GovernmentScraper, CSIROScraper, PortalScraper
+    from scrapers.import_csv  import CSVImportScraper
 
-    SCRAPERS = {
-        "aps_jobs":  APSJobsScraper,
-        "pageup":    PageUpScraper,
-        "seek":      SeekScraper,
-        "deloitte":  DeloitteScraper,
-        "kpmg":      KPMGScraper,
-        "pwc":       PwCScraper,
-        "ey":        EYScraper,
+    # Static named scrapers
+    SCRAPERS: dict[str, type] = {
+        "aps_jobs":   APSJobsScraper,
+        "pageup":     PageUpScraper,
+        "seek":       SeekScraper,
+        "deloitte":   DeloitteScraper,
+        "kpmg":       KPMGScraper,
+        "pwc":        PwCScraper,
+        "ey":         EYScraper,
         "government": GovernmentScraper,
-        "csiro":     CSIROScraper,
+        "csiro":      CSIROScraper,
+        "csv_import": CSVImportScraper,
     }
+
+    # Individual per-state portal names (constructed via PortalScraper)
+    _STATE_PORTAL_NAMES = {
+        "nsw_government":          "NSW Government",
+        "victoria_government":     "Victoria Government",
+        "queensland_government":   "Queensland Government",
+        "sa_government":           "SA Government",
+        "wa_government":           "WA Government",
+        "act_government":          "ACT Government",
+        "tasmania_government":     "Tasmania Government",
+        "nt_government":           "NT Government",
+    }
+
     kws = keywords or SCRAPE_SEARCH_TERMS
     cls = SCRAPERS.get(scraper_name)
-    if not cls:
-        return {"scraper": scraper_name, "error": "unknown scraper", "new": 0, "total": 0}
+    if cls:
+        scraper = cls()
+        jobs = scraper.run(kws)
+        new, total = _save_jobs(jobs)
+        return {"scraper": scraper_name, "new": new, "total": total, "error": None}
 
-    scraper = cls()
-    jobs = scraper.run(kws)
-    new, total = _save_jobs(jobs)
-    return {"scraper": scraper_name, "new": new, "total": total, "error": None}
+    portal_name = _STATE_PORTAL_NAMES.get(scraper_name)
+    if portal_name:
+        scraper = PortalScraper(portal_name)
+        jobs = scraper.run(kws)
+        new, total = _save_jobs(jobs)
+        return {"scraper": scraper_name, "new": new, "total": total, "error": None}
+
+    return {"scraper": scraper_name, "error": "unknown scraper", "new": 0, "total": 0}
 
 
 def run_all_scrapers(keywords: list[str] | None = None) -> dict:
@@ -62,6 +85,8 @@ def run_all_scrapers(keywords: list[str] | None = None) -> dict:
 
     kws = keywords or SCRAPE_SEARCH_TERMS
 
+    # GovernmentScraper covers all eight state/territory portals in one pass;
+    # individual portal scrapers are available via run_scraper() for targeted runs.
     scraper_classes = [
         APSJobsScraper, PageUpScraper, SeekScraper,
         DeloitteScraper, KPMGScraper, PwCScraper, EYScraper,
