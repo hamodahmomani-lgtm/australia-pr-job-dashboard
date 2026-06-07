@@ -18,6 +18,7 @@ from urllib.parse import urljoin, urlencode
 
 from bs4 import BeautifulSoup
 from scrapers.base import BaseScraper, parse_date, parse_salary, today
+from config import GOV_PORTAL_KEYWORDS
 
 logger = logging.getLogger(__name__)
 
@@ -224,18 +225,42 @@ class GovernmentScraper(BaseScraper):
             )
             page = ctx.new_page()
 
+            # Use the curated government-portal keyword list so all target role
+            # types (policy, evaluation, health, research, data) are queried.
+            # Fall back to the first 6 of caller-supplied keywords when a
+            # custom list is passed (e.g. from a targeted run_scraper() call).
+            from config import SCRAPE_SEARCH_TERMS as _DEFAULT_KWS
+            search_kws = (
+                GOV_PORTAL_KEYWORDS
+                if keywords is _DEFAULT_KWS or set(keywords) == set(_DEFAULT_KWS)
+                else keywords[:6]
+            )
+
             for portal in active_portals:
                 portal_jobs: list[dict] = []
-                for kw in keywords[:3]:
+                worst_status: str = "unknown"
+                for kw in search_kws:
                     try:
                         jobs = self._scrape_portal(page, portal, kw, seen)
                         portal_jobs.extend(jobs)
                         logger.info("  %s '%s': %d jobs", portal["name"], kw, len(jobs))
                     except Exception as exc:
                         logger.warning("%s '%s': %s", portal["name"], kw, exc)
+                    # Track the worst status seen across all keyword requests
+                    cur = PORTAL_STATUS.get(portal["name"], "unknown")
+                    if cur in ("blocked", "error"):
+                        worst_status = cur
+                    elif cur == "partial" and worst_status not in ("blocked", "error"):
+                        worst_status = "partial"
                     time.sleep(2)
                 all_jobs.extend(portal_jobs)
-                if portal_jobs:
+                # Only mark "ok" if no keyword request was blocked or errored.
+                # If we got some jobs despite a partial failure, record "partial".
+                if worst_status in ("blocked", "error"):
+                    if portal_jobs:
+                        PORTAL_STATUS[portal["name"]] = "partial"
+                    # else: leave PORTAL_STATUS as blocked/error
+                elif portal_jobs:
                     PORTAL_STATUS[portal["name"]] = "ok"
 
             browser.close()
@@ -314,9 +339,14 @@ class GovernmentScraper(BaseScraper):
                 salary_max=sal_max,
                 closing_date=item.get("closing", ""),
             )
-            # Override source with per-portal label so filters work per state
+            # Override source with per-portal label so filters work per state.
             job["source"] = name
-            if state and not job.get("state"):
+            # make_job() always sets a state (defaulting to "Remote" when
+            # infer_state() can't match the location text).  Force the portal's
+            # known state for any listing whose location is ambiguous ("Various
+            # locations", "Multiple locations", etc.) so it isn't silently
+            # misclassified as Remote and hidden from the state filter.
+            if state and job.get("state") == "Remote":
                 job["state"] = state
             jobs.append(job)
         return jobs

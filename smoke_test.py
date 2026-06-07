@@ -116,23 +116,23 @@ def _http_check(portal: Portal, timeout: int = 15) -> None:
 
 
 def _playwright_check(portal: Portal, keywords: list[str]) -> None:
-    """Full Playwright extraction attempt — reports job count found."""
+    """Full Playwright extraction for this specific portal only."""
     try:
-        from scrapers.government import _GOV_PORTALS, GovernmentScraper, PORTAL_STATUS
+        from scrapers.government import _GOV_PORTALS, PortalScraper, PORTAL_STATUS
     except ImportError:
         portal.error = "scrapers.government not importable"
         return
 
-    portal_def = next((p for p in _GOV_PORTALS if p["name"] == portal.name), None)
-    if portal_def is None:
+    if portal.name not in {p["name"] for p in _GOV_PORTALS}:
         portal.error = f"Portal '{portal.name}' not in _GOV_PORTALS"
         return
 
     try:
-        scraper = GovernmentScraper()
-        jobs = scraper.run(keywords[:2])
+        # PortalScraper targets only this portal so --portal NSW doesn't
+        # trigger all eight portals as GovernmentScraper.run() would.
+        scraper = PortalScraper(portal.name)
+        jobs = scraper.run(keywords[:4])
         portal.jobs_found = len(jobs)
-        # Read back from module-level PORTAL_STATUS
         portal.status = PORTAL_STATUS.get(portal.name, portal.status)
     except Exception as exc:
         portal.status = "error"

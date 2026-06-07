@@ -337,6 +337,20 @@ SCRAPE_SEARCH_TERMS = [
     "casual academic economics",
 ]
 
+# Curated keyword set for state/territory government portal searches.
+# Kept intentionally short (≤8 terms) to cap per-portal Playwright requests while
+# covering all target role types — policy, evaluation, health, research, data.
+GOV_PORTAL_KEYWORDS = [
+    "policy analyst",
+    "senior policy officer",
+    "health policy officer",
+    "program evaluation officer",
+    "health economist",
+    "research officer",
+    "evaluation officer",
+    "data analyst",
+]
+
 # ── Default user profile — Mohammad Almomani ──────────────────────────────────
 DEFAULT_PROFILE = {
     "name":              "Mohammad Almomani",
