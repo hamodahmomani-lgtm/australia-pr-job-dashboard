@@ -1,0 +1,24 @@
+# Core dashboard
+streamlit>=1.35.0
+pandas>=2.2.0
+plotly>=5.22.0
+
+# HTTP + scraping
+requests>=2.32.0
+urllib3>=2.2.0
+beautifulsoup4>=4.12.3
+python-dateutil>=2.9.0
+
+# CV parsing (PDF + DOCX)
+pymupdf>=1.24.0
+python-docx>=1.1.0
+
+# Scheduling
+apscheduler>=3.10.0
+
+# Secrets management
+python-dotenv>=1.0.0
+
+# JavaScript-rendered pages (APS Jobs)
+playwright>=1.44.0
+# After installing: python -m playwright install chromium
