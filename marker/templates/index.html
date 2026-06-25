@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Case Study 1 — Auto Marker</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0f172a;
+      color: #e2e8f0;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1e3a5f 0%, #1a2744 100%);
+      padding: 20px 32px;
+      border-bottom: 1px solid #1e40af33;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    header .logo {
+      width: 40px; height: 40px;
+      background: #2563eb;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+
+    header h1 { font-size: 1.3rem; font-weight: 700; color: #f1f5f9; }
+    header p { font-size: 0.8rem; color: #94a3b8; margin-top: 2px; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 32px 24px; }
+
+    /* Upload zone */
+    .upload-card {
+      background: #1e293b;
+      border: 2px dashed #334155;
+      border-radius: 16px;
+      padding: 48px 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .upload-card:hover, .upload-card.drag-over {
+      border-color: #2563eb;
+      background: #1e3a5f22;
+    }
+    .upload-card input[type="file"] {
+      position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+    }
+    .upload-icon { font-size: 48px; margin-bottom: 16px; }
+    .upload-card h2 { font-size: 1.2rem; color: #f1f5f9; margin-bottom: 8px; }
+    .upload-card p { color: #64748b; font-size: 0.875rem; }
+
+    .btn-mark {
+      display: none;
+      margin: 20px auto 0;
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 14px 40px;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-mark:hover { background: #1d4ed8; }
+    .btn-mark.visible { display: inline-flex; align-items: center; gap: 8px; }
+    .btn-mark:disabled { background: #334155; cursor: not-allowed; }
+
+    .file-selected {
+      display: none;
+      margin-top: 16px;
+      background: #0f3460;
+      border: 1px solid #1e40af;
+      border-radius: 10px;
+      padding: 12px 16px;
+      align-items: center;
+      gap: 12px;
+    }
+    .file-selected.visible { display: flex; }
+    .file-selected .file-icon { font-size: 24px; }
+    .file-selected .file-name { font-size: 0.9rem; color: #bfdbfe; font-weight: 500; }
+    .file-selected .file-size { font-size: 0.75rem; color: #64748b; }
+
+    /* Progress */
+    .progress-bar {
+      display: none;
+      margin-top: 20px;
+      height: 6px;
+      background: #1e293b;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    .progress-bar.visible { display: block; }
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #2563eb, #7c3aed);
+      border-radius: 3px;
+      animation: progress-anim 2s ease-in-out infinite;
+    }
+    @keyframes progress-anim {
+      0% { width: 10%; }
+      50% { width: 75%; }
+      100% { width: 90%; }
+    }
+
+    .status-msg {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 0.875rem;
+      color: #94a3b8;
+      display: none;
+    }
+    .status-msg.visible { display: block; }
+
+    /* Error */
+    .error-box {
+      display: none;
+      background: #450a0a;
+      border: 1px solid #dc2626;
+      border-radius: 10px;
+      padding: 16px;
+      margin-top: 20px;
+      color: #fca5a5;
+      font-size: 0.875rem;
+    }
+    .error-box.visible { display: block; }
+
+    /* Results */
+    #results { display: none; margin-top: 36px; }
+    #results.visible { display: block; }
+
+    /* Score hero */
+    .score-hero {
+      background: linear-gradient(135deg, #1e3a5f 0%, #1a2744 100%);
+      border: 1px solid #1e40af55;
+      border-radius: 16px;
+      padding: 32px;
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .score-circle {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      background: conic-gradient(#2563eb var(--pct, 0%), #1e293b 0%);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      flex-shrink: 0;
+    }
+    .score-circle::after {
+      content: '';
+      position: absolute;
+      width: 82px; height: 82px;
+      border-radius: 50%;
+      background: #0f172a;
+    }
+    .score-circle .score-text {
+      position: relative; z-index: 1;
+      text-align: center;
+    }
+    .score-circle .score-num { font-size: 1.4rem; font-weight: 800; color: #f1f5f9; }
+    .score-circle .score-denom { font-size: 0.7rem; color: #94a3b8; }
+    .score-info h2 { font-size: 1.5rem; font-weight: 700; color: #f1f5f9; }
+    .score-info .industry-badge {
+      display: inline-block;
+      margin-top: 6px;
+      background: #1e40af33;
+      border: 1px solid #2563eb55;
+      color: #93c5fd;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    .score-info .pending-note {
+      margin-top: 10px;
+      font-size: 0.8rem;
+      color: #fbbf24;
+      background: #451a0322;
+      border: 1px solid #fbbf2444;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+
+    /* Image-only warning */
+    .image-warning {
+      display: none;
+      background: #1c1917;
+      border: 1px solid #d97706;
+      border-radius: 10px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+      color: #fcd34d;
+    }
+    .image-warning.visible { display: flex; gap: 10px; align-items: flex-start; }
+
+    /* Parts grid */
+    .parts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+
+    .part-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .part-card-header {
+      padding: 14px 16px;
+      background: #162032;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #334155;
+    }
+    .part-card-header h3 { font-size: 0.95rem; font-weight: 600; color: #e2e8f0; }
+    .part-score {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #60a5fa;
+      background: #1e3a5f;
+      padding: 2px 10px;
+      border-radius: 20px;
+    }
+    .part-card-body { padding: 12px 0; }
+
+    .question-row {
+      padding: 10px 16px;
+      border-bottom: 1px solid #1e293b;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .question-row:last-child { border-bottom: none; }
+
+    .q-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #94a3b8;
+      width: 44px;
+      flex-shrink: 0;
+      padding-top: 2px;
+      text-transform: uppercase;
+    }
+    .q-content { flex: 1; }
+    .q-marks {
+      font-size: 0.85rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      padding-top: 1px;
+    }
+    .q-marks.full { color: #34d399; }
+    .q-marks.partial { color: #fbbf24; }
+    .q-marks.zero { color: #f87171; }
+    .q-marks.pending { color: #a78bfa; }
+
+    .q-feedback {
+      font-size: 0.78rem;
+      color: #64748b;
+      margin-top: 3px;
+      line-height: 1.4;
+    }
+    .q-feedback.pending-manual {
+      color: #a78bfa;
+      background: #1e1b4b33;
+      border: 1px solid #4338ca44;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+
+    /* Feedback */
+    .feedback-card {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    .feedback-card h3 { font-size: 0.95rem; font-weight: 600; color: #e2e8f0; margin-bottom: 12px; }
+    .feedback-card p { font-size: 0.875rem; color: #94a3b8; line-height: 1.6; }
+
+    /* Summary table */
+    .summary-table {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 24px;
+    }
+    .summary-table h3 {
+      padding: 14px 20px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      background: #162032;
+      border-bottom: 1px solid #334155;
+    }
+    table { width: 100%; border-collapse: collapse; }
+    th {
+      text-align: left;
+      padding: 10px 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: #162032;
+      border-bottom: 1px solid #334155;
+    }
+    td {
+      padding: 11px 20px;
+      font-size: 0.875rem;
+      border-bottom: 1px solid #1e293b;
+      color: #e2e8f0;
+    }
+    tr:last-child td { border-bottom: none; }
+    tr.total-row td { font-weight: 700; background: #0f1f3d; color: #60a5fa; }
+
+    .bar-cell { width: 120px; }
+    .bar { height: 6px; background: #334155; border-radius: 3px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 3px; background: #2563eb; transition: width 0.5s ease; }
+
+    /* Export button */
+    .btn-export {
+      background: #1e293b;
+      color: #94a3b8;
+      border: 1px solid #334155;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-export:hover { background: #334155; color: #e2e8f0; }
+
+    .btn-new {
+      background: #2563eb;
+      color: white;
+      border: none;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-new:hover { background: #1d4ed8; }
+
+    .actions { display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="logo">📋</div>
+  <div>
+    <h1>Case Study 1 — Auto Marker</h1>
+    <p>Microeconomics · 4 Australian Industries · 100 marks</p>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- Upload Card -->
+  <div class="upload-card" id="uploadCard">
+    <input type="file" id="fileInput" accept=".pdf" />
+    <div class="upload-icon">📄</div>
+    <h2>Drop student submission here</h2>
+    <p>or click to browse · PDF only · max 50 MB</p>
+  </div>
+
+  <div class="file-selected" id="fileSelected">
+    <span class="file-icon">📄</span>
+    <div>
+      <div class="file-name" id="fileName">filename.pdf</div>
+      <div class="file-size" id="fileSize">—</div>
+    </div>
+  </div>
+
+  <div style="text-align:center">
+    <button class="btn-mark" id="btnMark" onclick="submitFile()">
+      <span>✦</span> Mark Submission
+    </button>
+  </div>
+
+  <div class="progress-bar" id="progressBar"><div class="progress-bar-fill"></div></div>
+  <div class="status-msg" id="statusMsg">Extracting PDF text and sending to Claude for marking…</div>
+  <div class="error-box" id="errorBox"></div>
+
+  <!-- Results -->
+  <div id="results">
+
+    <div class="score-hero">
+      <div class="score-circle" id="scoreCircle">
+        <div class="score-text">
+          <div class="score-num" id="scoreNum">—</div>
+          <div class="score-denom">/ 83</div>
+        </div>
+      </div>
+      <div class="score-info">
+        <h2 id="scoreTitle">Automated Mark (Text Only)</h2>
+        <div class="industry-badge" id="industryBadge">Industry: —</div>
+        <div class="pending-note">
+          ⚠️ <strong>17 diagram marks pending manual review</strong> — see purple rows below.
+          Add diagram marks separately after checking the PDF.
+        </div>
+      </div>
+    </div>
+
+    <div class="image-warning" id="imageWarning">
+      <span>⚠️</span>
+      <span id="imageWarningText"></span>
+    </div>
+
+    <div class="parts-grid" id="partsGrid"></div>
+
+    <div class="feedback-card" id="feedbackCard">
+      <h3>Student Feedback Comment</h3>
+      <p id="feedbackText">—</p>
+    </div>
+
+    <div class="summary-table">
+      <h3>Mark Summary by Part</h3>
+      <table id="summaryTable">
+        <thead>
+          <tr>
+            <th>Part</th>
+            <th>Description</th>
+            <th>Awarded</th>
+            <th>Possible</th>
+            <th class="bar-cell">Progress</th>
+          </tr>
+        </thead>
+        <tbody id="summaryBody"></tbody>
+      </table>
+    </div>
+
+    <div class="actions">
+      <button class="btn-export" onclick="exportReport()">⬇ Export Report (.txt)</button>
+      <button class="btn-new" onclick="resetForm()">Mark Another Submission</button>
+    </div>
+
+  </div>
+</div>
+
+<script>
+let selectedFile = null;
+let lastResult = null;
+
+const partNames = {
+  part1: 'Industry & Factors of Production',
+  part2: 'Supply & Demand Diagrams',
+  part3: 'Supply-Side Factors',
+  part4: 'Price Elasticity of Demand',
+  part5: 'Market Structure',
+  part6: 'Price Controls',
+  part7: 'Externalities',
+  part8: 'Game Theory',
+};
+
+const questionLabels = {
+  q1_1: 'Q1.1', q1_2: 'Q1.2',
+  q2_1: 'Q2.1', q2_2a: 'Q2.2a', q2_2b: 'Q2.2b',
+  q3_1: 'Q3.1', q3_2: 'Q3.2',
+  q4_1: 'Q4.1', q4_2: 'Q4.2', q4_3: 'Q4.3',
+  q5_1: 'Q5.1', q5_2: 'Q5.2', q5_3: 'Q5.3',
+  q6_1: 'Q6.1', q6_2: 'Q6.2', q6_3: 'Q6.3',
+  q7_1: 'Q7.1', q7_2: 'Q7.2',
+  q8_1: 'Q8.1', q8_2: 'Q8.2', q8_3: 'Q8.3', q8_4: 'Q8.4',
+};
+
+// Drag and drop
+const uploadCard = document.getElementById('uploadCard');
+uploadCard.addEventListener('dragover', e => { e.preventDefault(); uploadCard.classList.add('drag-over'); });
+uploadCard.addEventListener('dragleave', () => uploadCard.classList.remove('drag-over'));
+uploadCard.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadCard.classList.remove('drag-over');
+  if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+});
+
+document.getElementById('fileInput').addEventListener('change', e => {
+  if (e.target.files[0]) handleFile(e.target.files[0]);
+});
+
+function handleFile(file) {
+  if (!file.name.toLowerCase().endsWith('.pdf')) {
+    showError('Please select a PDF file.');
+    return;
+  }
+  selectedFile = file;
+  document.getElementById('fileName').textContent = file.name;
+  document.getElementById('fileSize').textContent = (file.size / 1024).toFixed(1) + ' KB';
+  document.getElementById('fileSelected').classList.add('visible');
+  document.getElementById('btnMark').classList.add('visible');
+  document.getElementById('errorBox').classList.remove('visible');
+}
+
+async function submitFile() {
+  if (!selectedFile) return;
+
+  const btn = document.getElementById('btnMark');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="spinner">⏳</span> Marking…';
+  document.getElementById('progressBar').classList.add('visible');
+  document.getElementById('statusMsg').classList.add('visible');
+  document.getElementById('errorBox').classList.remove('visible');
+  document.getElementById('results').classList.remove('visible');
+
+  const formData = new FormData();
+  formData.append('file', selectedFile);
+
+  try {
+    const res = await fetch('/mark', { method: 'POST', body: formData });
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      showError(data.error || 'An error occurred during marking.');
+      return;
+    }
+
+    lastResult = data;
+    renderResults(data);
+  } catch (err) {
+    showError('Network error: ' + err.message);
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<span>✦</span> Mark Submission';
+    document.getElementById('progressBar').classList.remove('visible');
+    document.getElementById('statusMsg').classList.remove('visible');
+  }
+}
+
+function renderResults(data) {
+  const parts = data.parts;
+  const textTotal = data.text_marks_total || 0;
+  const diagPending = data.diagram_marks_pending || 17;
+  const max = 83; // text-only max (100 - 17 diagram)
+
+  // Score circle
+  const pct = Math.round((textTotal / max) * 100);
+  document.getElementById('scoreNum').textContent = textTotal;
+  document.getElementById('scoreCircle').style.setProperty('--pct', pct + '%');
+  document.getElementById('industryBadge').textContent = 'Industry: ' + (data.industry || 'Unknown');
+
+  // Image-only warning
+  if (data.image_only_pages && data.image_only_pages.length > 0) {
+    const warn = document.getElementById('imageWarning');
+    document.getElementById('imageWarningText').textContent =
+      `Pages with no extractable text detected: ${data.image_only_pages.join(', ')}. These pages may contain diagrams or image-rendered answers that could not be read automatically. Please check the original PDF for these pages.`;
+    warn.classList.add('visible');
+  }
+
+  // Parts grid
+  const grid = document.getElementById('partsGrid');
+  grid.innerHTML = '';
+  const summaryRows = [];
+
+  for (const [partKey, partData] of Object.entries(parts)) {
+    const card = document.createElement('div');
+    card.className = 'part-card';
+
+    const awarded = partData.total_awarded || 0;
+    const possible = partData.total_possible || 0;
+
+    card.innerHTML = `
+      <div class="part-card-header">
+        <h3>${partKey.replace('part', 'Part ')} — ${partNames[partKey] || ''}</h3>
+        <span class="part-score">${awarded} / ${possible}</span>
+      </div>
+      <div class="part-card-body">
+        ${Object.entries(partData.questions).map(([qKey, q]) => {
+          const ratio = q.possible > 0 ? q.awarded / q.possible : 0;
+          let marksClass = q.pending_manual ? 'pending' : (ratio >= 1 ? 'full' : (ratio > 0 ? 'partial' : 'zero'));
+          const marksLabel = q.pending_manual ? '⚠️ —' : `${q.awarded}/${q.possible}`;
+          const feedbackClass = q.pending_manual ? 'q-feedback pending-manual' : 'q-feedback';
+          return `
+            <div class="question-row">
+              <div class="q-label">${questionLabels[qKey] || qKey}</div>
+              <div class="q-content">
+                <div class="${feedbackClass}">${q.feedback}</div>
+              </div>
+              <div class="q-marks ${marksClass}">${marksLabel}</div>
+            </div>`;
+        }).join('')}
+      </div>`;
+
+    grid.appendChild(card);
+    summaryRows.push({ partKey, name: partNames[partKey] || '', awarded, possible });
+  }
+
+  // Summary table
+  const tbody = document.getElementById('summaryBody');
+  tbody.innerHTML = '';
+  let totalAwarded = 0;
+  for (const row of summaryRows) {
+    totalAwarded += row.awarded;
+    const pct = row.possible > 0 ? Math.round((row.awarded / row.possible) * 100) : 0;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${row.partKey.replace('part', 'Part ')}</td>
+      <td>${row.name}</td>
+      <td>${row.awarded}</td>
+      <td>${row.possible}</td>
+      <td class="bar-cell"><div class="bar"><div class="bar-fill" style="width:${pct}%"></div></div></td>`;
+    tbody.appendChild(tr);
+  }
+  // Totals row
+  const trTotal = document.createElement('tr');
+  trTotal.className = 'total-row';
+  trTotal.innerHTML = `
+    <td colspan="2">TOTAL (text marks, excl. diagrams)</td>
+    <td>${totalAwarded}</td>
+    <td>83</td>
+    <td class="bar-cell"><div class="bar"><div class="bar-fill" style="width:${Math.round(totalAwarded/83*100)}%;background:#34d399"></div></div></td>`;
+  tbody.appendChild(trTotal);
+  const trDiag = document.createElement('tr');
+  trDiag.innerHTML = `<td colspan="2" style="color:#a78bfa">Diagram marks (⚠️ pending manual check)</td><td style="color:#a78bfa">+?</td><td style="color:#a78bfa">17</td><td></td>`;
+  tbody.appendChild(trDiag);
+
+  // Feedback
+  document.getElementById('feedbackText').textContent = data.student_feedback || '—';
+
+  document.getElementById('results').classList.add('visible');
+  document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+}
+
+function showError(msg) {
+  const box = document.getElementById('errorBox');
+  box.textContent = '⚠ ' + msg;
+  box.classList.add('visible');
+}
+
+function resetForm() {
+  selectedFile = null;
+  lastResult = null;
+  document.getElementById('fileInput').value = '';
+  document.getElementById('fileSelected').classList.remove('visible');
+  document.getElementById('btnMark').classList.remove('visible');
+  document.getElementById('results').classList.remove('visible');
+  document.getElementById('errorBox').classList.remove('visible');
+  document.getElementById('imageWarning').classList.remove('visible');
+  document.getElementById('partsGrid').innerHTML = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function exportReport() {
+  if (!lastResult) return;
+  const d = lastResult;
+  let lines = [];
+  lines.push('CASE STUDY 1 — MARKING REPORT');
+  lines.push('=' .repeat(50));
+  lines.push(`File: ${d.filename || '—'}`);
+  lines.push(`Industry: ${d.industry || '—'}`);
+  lines.push(`Text marks total: ${d.text_marks_total} / 83`);
+  lines.push(`Diagram marks: PENDING MANUAL CHECK (+? / 17)`);
+  lines.push('');
+  for (const [pk, pdata] of Object.entries(d.parts)) {
+    lines.push(`--- ${pk.replace('part', 'Part ').toUpperCase()} (${pdata.total_awarded}/${pdata.total_possible}) ---`);
+    for (const [qk, q] of Object.entries(pdata.questions)) {
+      const mark = q.pending_manual ? '⚠️ PENDING' : `${q.awarded}/${q.possible}`;
+      lines.push(`  ${questionLabels[qk] || qk}: ${mark}`);
+      lines.push(`    ${q.feedback}`);
+    }
+    lines.push('');
+  }
+  lines.push('STUDENT FEEDBACK:');
+  lines.push(d.student_feedback || '—');
+  if (d.image_only_pages && d.image_only_pages.length > 0) {
+    lines.push('');
+    lines.push(`IMAGE-ONLY PAGES (no text extracted): ${d.image_only_pages.join(', ')}`);
+  }
+
+  const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = (d.filename || 'submission').replace('.pdf', '') + '_marking_report.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
