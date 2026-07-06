@@ -8,7 +8,8 @@
   }
 
   function linkOrDisabled(href, label) {
-    if (href && href.trim() !== "") {
+    var trimmed = href ? href.trim() : "";
+    if (trimmed && trimmed !== "#") {
       return '<a href="' + escapeHtml(href) + '">' + label + "</a>";
     }
     return '<span class="disabled">' + label + " — add link</span>";
