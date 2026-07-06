@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Teaching — Mohammad Almomani, Applied Economist</title>
+<meta name="description" content="University teaching experience of Mohammad Almomani in economics, econometrics, statistics, data analysis and applied research methods at Adelaide University, Flinders University and Yarmouk University.">
+<link rel="canonical" href="https://mohammadalmomani.com/teaching.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body data-page="teaching">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">MA</span>
+      <span class="brand-text"><strong>Mohammad Almomani</strong><span>Applied Economist</span></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav">
+      <span aria-hidden="true">☰</span> Menu
+    </button>
+    <nav class="site-nav" id="primary-nav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html" data-nav="home">Home</a></li>
+        <li><a href="about.html" data-nav="about">About</a></li>
+        <li><a href="research.html" data-nav="research">Research</a></li>
+        <li><a href="publications.html" data-nav="publications">Publications</a></li>
+        <li><a href="teaching.html" data-nav="teaching">Teaching</a></li>
+        <li><a href="conferences.html" data-nav="conferences">Conferences</a></li>
+        <li><a href="cv.html" data-nav="cv">CV</a></li>
+        <li><a href="contact.html" data-nav="contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <div class="page-header">
+    <div class="container">
+      <p class="eyebrow">Teaching</p>
+      <h1>University teaching in economics, econometrics and applied methods</h1>
+      <p class="lede mt-0">Teaching spans economics, business, econometrics, statistics, data analysis, coding for business, digital business and applied research methods, at undergraduate, postgraduate and professional levels.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="container">
+      <noscript>
+        <p class="lede">This page lists teaching experience dynamically; please enable JavaScript, or see the <a href="cv.html">CV page</a> for the full list.</p>
+      </noscript>
+      <div id="teaching-list"></div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <strong>Mohammad Almomani</strong><br>
+      <span class="text-muted">Applied Economist · Adelaide, South Australia</span>
+    </div>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="research.html">Research</a>
+      <a href="publications.html">Publications</a>
+      <a href="cv.html">CV</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div>&copy; <span data-current-year>2026</span> Mohammad Almomani</div>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (typeof SITE_DATA === "undefined") { return; }
+    var wrap = document.getElementById("teaching-list");
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+    wrap.innerHTML = SITE_DATA.teaching.map(function (t) {
+      return (
+        '<div class="teach-item">' +
+          "<h3>" + esc(t.course) + "</h3>" +
+          '<div class="teach-years">' + esc(t.years) + "</div>" +
+          '<div class="teach-inst">' + esc(t.institution) + " &middot; " + esc(t.level) + "</div>" +
+          '<p class="teach-desc">' + esc(t.description) + "</p>" +
+        "</div>"
+      );
+    }).join("");
+  });
+</script>
+<script src="js/main.js"></script>
+</body>
+</html>

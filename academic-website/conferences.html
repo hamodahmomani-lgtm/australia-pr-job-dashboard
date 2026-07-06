@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Conferences &amp; Research Geography — Mohammad Almomani</title>
+<meta name="description" content="Interactive map of conference presentations, academic appointments, industry experience and the longitudinal datasets (SHARE, HILDA, ALSWH, JLMPS) behind Mohammad Almomani's economic research.">
+<link rel="canonical" href="https://mohammadalmomani.com/conferences.html">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+</head>
+<body data-page="conferences">
+<a class="skip-link" href="#main">Skip to content</a>
+
+<header class="site-header">
+  <div class="nav-wrap">
+    <a class="brand" href="index.html">
+      <span class="brand-mark" aria-hidden="true">MA</span>
+      <span class="brand-text"><strong>Mohammad Almomani</strong><span>Applied Economist</span></span>
+    </a>
+    <button class="nav-toggle" aria-expanded="false" aria-controls="primary-nav">
+      <span aria-hidden="true">☰</span> Menu
+    </button>
+    <nav class="site-nav" id="primary-nav" aria-label="Primary">
+      <ul>
+        <li><a href="index.html" data-nav="home">Home</a></li>
+        <li><a href="about.html" data-nav="about">About</a></li>
+        <li><a href="research.html" data-nav="research">Research</a></li>
+        <li><a href="publications.html" data-nav="publications">Publications</a></li>
+        <li><a href="teaching.html" data-nav="teaching">Teaching</a></li>
+        <li><a href="conferences.html" data-nav="conferences">Conferences</a></li>
+        <li><a href="cv.html" data-nav="cv">CV</a></li>
+        <li><a href="contact.html" data-nav="contact">Contact</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+  <div class="page-header">
+    <div class="container">
+      <p class="eyebrow">Research and Conference Footprint</p>
+      <h1>An interactive map of academic engagement and research geography</h1>
+      <p class="lede mt-0">Conference presentations, teaching appointments, industry experience and the longitudinal datasets that underpin this research programme — plotted geographically to show the international scope of the work.</p>
+    </div>
+  </div>
+
+  <section aria-labelledby="map-heading">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Footprint</p>
+        <h2 id="map-heading">Conferences, teaching and research network</h2>
+        <p class="lede mt-0">Click a pin for details — city, institution or dataset, year, topic, and role. Use the legend to isolate a category.</p>
+      </div>
+
+      <div class="map-legend" id="map-legend" role="group" aria-label="Toggle map categories"></div>
+
+      <div id="map" role="application" aria-label="Interactive map of research and conference locations"></div>
+
+      <div class="location-list">
+        <table>
+          <caption>Full list of locations shown on the map (accessible alternative to the interactive pins)</caption>
+          <thead>
+            <tr>
+              <th scope="col">Location</th>
+              <th scope="col">Category</th>
+              <th scope="col">Institution / activity</th>
+              <th scope="col">Year</th>
+              <th scope="col">Role</th>
+            </tr>
+          </thead>
+          <tbody id="location-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="data-geo-heading">
+    <div class="container">
+      <div class="section-head">
+        <p class="eyebrow">Data Geography</p>
+        <h2 id="data-geo-heading">The longitudinal datasets behind the research</h2>
+        <p class="lede mt-0">This research draws on major longitudinal and cross-national survey infrastructures. Each dataset defines its own geographic footprint, independent of where the analysis itself was presented or taught.</p>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card dataset-card">
+          <div class="dataset-badge" aria-hidden="true">SHARE</div>
+          <div>
+            <h3 class="mt-0">SHARE — Survey of Health, Ageing and Retirement in Europe</h3>
+            <p class="text-muted">Cross-national panel covering 27+ European countries, used across the retirement, functional-health and wellbeing research stream.</p>
+          </div>
+        </div>
+        <div class="card dataset-card">
+          <div class="dataset-badge" aria-hidden="true">HILDA</div>
+          <div>
+            <h3 class="mt-0">HILDA — Household, Income and Labour Dynamics in Australia</h3>
+            <p class="text-muted">National household panel survey, used for research on functional decline, aged-care use, hope and wellbeing among older Australians.</p>
+          </div>
+        </div>
+        <div class="card dataset-card">
+          <div class="dataset-badge" aria-hidden="true">ALSWH</div>
+          <div>
+            <h3 class="mt-0">ALSWH — Australian Longitudinal Study on Women's Health</h3>
+            <p class="text-muted">Longitudinal cohort study used to estimate the costs of age-related care needs among Australian women.</p>
+          </div>
+        </div>
+        <div class="card dataset-card">
+          <div class="dataset-badge" aria-hidden="true">JLMPS</div>
+          <div>
+            <h3 class="mt-0">JLMPS &amp; Jordan DHS/JPFHS</h3>
+            <p class="text-muted">Jordan Labor Market Panel Survey and Demographic and Health Survey data, used for the development-economics research stream on household decision-making, early childhood development and domestic violence.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <strong>Mohammad Almomani</strong><br>
+      <span class="text-muted">Applied Economist · Adelaide, South Australia</span>
+    </div>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="research.html">Research</a>
+      <a href="publications.html">Publications</a>
+      <a href="cv.html">CV</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div>&copy; <span data-current-year>2026</span> Mohammad Almomani</div>
+  </div>
+</footer>
+
+<script src="js/data.js"></script>
+<script src="vendor/leaflet/leaflet.js"></script>
+<script src="js/map.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    if (typeof SITE_DATA === "undefined") { return; }
+    var body = document.getElementById("location-table-body");
+    var labels = { academic: "Teaching / academic", conference: "Conference", industry: "Industry", dataset: "Dataset" };
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+      });
+    }
+    var rows = [];
+    SITE_DATA.locations.forEach(function (loc) {
+      loc.activities.forEach(function (a) {
+        rows.push(
+          "<tr>" +
+            "<td>" + esc(loc.city) + ", " + esc(loc.country) + "</td>" +
+            "<td>" + esc(labels[loc.category] || loc.category) + "</td>" +
+            "<td>" + esc(a.org) + " — " + esc(a.topic) + "</td>" +
+            "<td>" + esc(a.year) + "</td>" +
+            "<td>" + esc(a.role) + "</td>" +
+          "</tr>"
+        );
+      });
+    });
+    body.innerHTML = rows.join("");
+  });
+</script>
+<script src="js/main.js"></script>
+</body>
+</html>
