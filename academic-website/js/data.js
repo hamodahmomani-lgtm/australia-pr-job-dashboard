@@ -24,7 +24,7 @@ var SITE_DATA = {
         details: "53(9), 80–96",
         year: 2026,
         keywords: ["Ageing", "Volunteering", "Locus of control", "SHARE", "Europe"],
-        abstract: "Examines how locus of control — the degree to which older individuals believe they can influence outcomes in their own lives — is associated with the probability and intensity of volunteering among older Europeans, using SHARE survey data.",
+        abstract: "Locus of control — how much older individuals believe they can influence their own outcomes — predicts both the probability and intensity of volunteering among older Europeans. Evidence from SHARE.",
         links: { pdf: "#", doi: "#", replication: "#", slides: "" }
       },
       {
@@ -34,7 +34,7 @@ var SITE_DATA = {
         details: "31(1), 63–78",
         year: 2026,
         keywords: ["Retirement policy", "Functional health", "Grip strength", "SHARE", "Governance"],
-        abstract: "Studies how variation in national retirement policy settings across Europe relates to a physical marker of functional health in older age, grip strength, drawing on harmonised SHARE data.",
+        abstract: "Cross-country variation in retirement-policy settings is linked to grip strength, a physical marker of functional health in older age. Evidence from harmonised SHARE data across Europe.",
         links: { pdf: "#", doi: "#", replication: "#", slides: "" }
       },
       {
@@ -44,7 +44,7 @@ var SITE_DATA = {
         details: "28(2), 63–75",
         year: 2026,
         keywords: ["Education", "Informal caregiving", "Retirement", "Ageing", "Europe"],
-        abstract: "Investigates whether attained education level shapes the probability and burden of informal caregiving among retirees, with implications for adult protection and long-term care policy in Europe.",
+        abstract: "Education level shapes both the probability and the burden of informal caregiving among retirees, with direct implications for adult-protection and long-term care policy in Europe.",
         links: { pdf: "#", doi: "#", replication: "#", slides: "" }
       },
       {
@@ -54,7 +54,7 @@ var SITE_DATA = {
         details: "1–32",
         year: 2026,
         keywords: ["Household size", "Domestic violence", "Jordan", "JPFHS", "Development economics"],
-        abstract: "Uses repeated cross-sections of the Jordan Population and Family Health Surveys to assess the relationship between household size and the incidence of domestic violence.",
+        abstract: "Repeated cross-sections of the Jordan Population and Family Health Surveys link household size to the incidence of domestic violence.",
         links: { pdf: "#", doi: "#", replication: "#", slides: "" }
       },
       {
@@ -64,7 +64,7 @@ var SITE_DATA = {
         details: "1–18",
         year: 2026,
         keywords: ["Early childhood development", "Household conditions", "Jordan", "Human capital"],
-        abstract: "Assesses how household living conditions relate to markers of early childhood development in Jordan, contributing to the human-capital and development-economics literature.",
+        abstract: "Household living conditions in Jordan are linked to markers of early childhood development, contributing to the human-capital and development-economics literature.",
         links: { pdf: "#", doi: "#", replication: "#", slides: "" }
       },
       {
@@ -74,7 +74,7 @@ var SITE_DATA = {
         details: "52(9), 289–303",
         year: 2025,
         keywords: ["Education", "IADL", "Functional independence", "SHARE", "Ageing"],
-        abstract: "Estimates the relationship between education and instrumental activities of daily living (IADL) among older Europeans, informing policy on education as a lever for healthy ageing.",
+        abstract: "Education is linked to instrumental activities of daily living (IADL) among older Europeans, using SHARE data — evidence for education as a lever for healthy-ageing policy.",
         links: { pdf: "#", doi: "#", replication: "#", slides: "" }
       },
       {
@@ -84,7 +84,7 @@ var SITE_DATA = {
         details: "1–16",
         year: 2025,
         keywords: ["Intra-household bargaining", "Parenthood", "Jordan", "Applied economics"],
-        abstract: "Examines how the transition to parenthood shifts intra-household decision-making dynamics, using household survey data from Jordan.",
+        abstract: "The transition to parenthood shifts intra-household decision-making dynamics, using household survey data from Jordan.",
         links: { pdf: "#", doi: "#", replication: "#", slides: "" }
       },
       {
@@ -94,7 +94,7 @@ var SITE_DATA = {
         details: "1–18",
         year: 2025,
         keywords: ["Maternal education", "Early childhood development", "Jordan", "DHS"],
-        abstract: "Analyses the link between maternal education and early childhood development outcomes using Jordan's Demographic and Health Survey.",
+        abstract: "Maternal education is linked to early childhood development outcomes, using Jordan's Demographic and Health Survey.",
         links: { pdf: "#", doi: "#", replication: "#", slides: "" }
       },
       {
@@ -104,7 +104,7 @@ var SITE_DATA = {
         details: "52(9), 253–273",
         year: 2025,
         keywords: ["Marriage costs", "Education", "Jordan", "Household economics"],
-        abstract: "Investigates whether higher education attainment is associated with higher marriage costs in Jordan, linking human-capital investment to household formation decisions.",
+        abstract: "Higher education attainment is associated with higher marriage costs in Jordan, linking human-capital investment to household-formation decisions.",
         links: { pdf: "#", doi: "#", replication: "#", slides: "" }
       }
     ],
@@ -117,7 +117,7 @@ var SITE_DATA = {
         details: "Under review",
         year: 2026,
         keywords: ["Retirement", "Functional independence", "Occupation", "SHARE", "IV-2SLS"],
-        abstract: "Uses an instrumental-variables strategy around statutory retirement ages to estimate how the effect of retirement on functional independence varies by occupational category across Europe.",
+        abstract: "An instrumental-variables strategy around statutory retirement ages identifies how the effect of retirement on functional independence varies by occupation, across Europe.",
         links: { pdf: "#", doi: "", replication: "#", slides: "#" }
       },
       {
@@ -127,7 +127,7 @@ var SITE_DATA = {
         details: "Under review",
         year: 2026,
         keywords: ["Emotional closeness", "Life expectancy", "Social ties", "Europe"],
-        abstract: "Studies the association between reported emotional closeness to family and friends and subsequent life expectancy, using cross-country European survey data.",
+        abstract: "Reported emotional closeness to family and friends is linked to subsequent life expectancy, using cross-country European survey data.",
         links: { pdf: "#", doi: "", replication: "#", slides: "#" }
       },
       {
@@ -137,7 +137,7 @@ var SITE_DATA = {
         details: "Under review",
         year: 2026,
         keywords: ["Locus of control", "Functional independence", "Older adults", "Europe"],
-        abstract: "Examines whether an internal locus of control is protective of functional independence in later life, using longitudinal European survey data.",
+        abstract: "An internal locus of control is protective of functional independence in later life, using longitudinal European survey data.",
         links: { pdf: "#", doi: "", replication: "#", slides: "" }
       }
     ],
@@ -150,7 +150,7 @@ var SITE_DATA = {
         details: "Draft available on request",
         year: 2026,
         keywords: ["Education", "Aged care", "Indigenous health", "Australia"],
-        abstract: "Assesses whether education attainment reduces the likelihood of needing aged care among Aboriginal and Torres Strait Islander adults, with direct relevance to closing-the-gap policy design.",
+        abstract: "Education attainment and the likelihood of needing aged care among Aboriginal and Torres Strait Islander adults, with direct relevance to closing-the-gap policy design.",
         links: { pdf: "#", doi: "", replication: "", slides: "" }
       },
       {
@@ -160,7 +160,7 @@ var SITE_DATA = {
         details: "Draft available on request",
         year: 2026,
         keywords: ["Retirement", "Aged care", "Functional independence", "Indigenous health"],
-        abstract: "Investigates how retirement timing relates to functional independence among Aboriginal and Torres Strait Islander adults, informing preventive aged-care policy.",
+        abstract: "Retirement timing and functional independence among Aboriginal and Torres Strait Islander adults, informing preventive aged-care policy.",
         links: { pdf: "#", doi: "", replication: "", slides: "" }
       },
       {
@@ -170,7 +170,7 @@ var SITE_DATA = {
         details: "Draft available on request",
         year: 2025,
         keywords: ["Hope", "Healthy ageing", "Obesity policy", "HILDA"],
-        abstract: "Explores psychological hope as a modifiable determinant of healthy ageing and weight outcomes among older Australians, using the HILDA Survey.",
+        abstract: "Psychological hope as a modifiable determinant of healthy ageing and weight outcomes among older Australians, using the HILDA Survey.",
         links: { pdf: "#", doi: "", replication: "", slides: "" }
       },
       {
@@ -180,7 +180,7 @@ var SITE_DATA = {
         details: "Draft available on request",
         year: 2025,
         keywords: ["Aged care costs", "Women's health", "ALSWH", "Ageing"],
-        abstract: "Quantifies the costs associated with age-related care needs among Australian women using the Australian Longitudinal Study on Women's Health (ALSWH).",
+        abstract: "The costs of age-related care needs among Australian women, using the Australian Longitudinal Study on Women's Health (ALSWH).",
         links: { pdf: "#", doi: "", replication: "", slides: "" }
       },
       {
@@ -190,7 +190,7 @@ var SITE_DATA = {
         details: "Draft available on request",
         year: 2025,
         keywords: ["Functional decline", "Aged care", "Wellbeing", "HILDA", "South Australia"],
-        abstract: "Examines the relationship between functional decline, aged-care service use and subjective wellbeing among older South Australians, using the HILDA Survey.",
+        abstract: "Functional decline, aged-care service use, and subjective wellbeing among older South Australians, using the HILDA Survey.",
         links: { pdf: "#", doi: "", replication: "", slides: "" }
       }
     ],
@@ -203,7 +203,7 @@ var SITE_DATA = {
         details: "Presenter and session chair — Leiden, the Netherlands",
         year: 2026,
         keywords: ["Retirement", "Pensions", "SHARE", "Functional independence"],
-        abstract: "Conference presentation of the retirement and functional-independence study, delivered as presenter and session chair at the Netspar International Pension Workshop.",
+        abstract: "Conference presentation of the retirement and functional-independence study, as presenter and session chair, at the Netspar International Pension Workshop.",
         links: { pdf: "", doi: "", replication: "", slides: "#" }
       },
       {
@@ -213,7 +213,7 @@ var SITE_DATA = {
         details: "Presenter — Boston, USA",
         year: 2025,
         keywords: ["Education", "Volunteering", "Ageing", "SHARE"],
-        abstract: "Presented findings on education and volunteering behaviour among older Europeans at the Gateway to Global Aging Data Conference.",
+        abstract: "Findings on education and volunteering behaviour among older Europeans, presented at the Gateway to Global Aging Data Conference.",
         links: { pdf: "", doi: "", replication: "", slides: "#" }
       },
       {
@@ -223,7 +223,7 @@ var SITE_DATA = {
         details: "Presenter — Berlin, Germany",
         year: 2024,
         keywords: ["Emotional closeness", "Life expectancy", "SHARE"],
-        abstract: "Presented cross-country evidence on emotional closeness and life expectancy at the SHARE-Gateway User Conference in Berlin.",
+        abstract: "Cross-country evidence on emotional closeness and life expectancy, presented at the SHARE-Gateway User Conference in Berlin.",
         links: { pdf: "", doi: "", replication: "", slides: "#" }
       }
     ],
