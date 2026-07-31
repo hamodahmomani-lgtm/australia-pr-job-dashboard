@@ -98,6 +98,27 @@ PR_OCCUPATION_SCORES: dict[str, dict] = {
         "priority": 3,
         "notes": "Management & Organisation Analyst — check current STSOL/MLTSSL.",
     },
+    "Senior Policy Officer": {
+        "anzsco": "224212",
+        "pr_eligible": True,
+        "mltssl": False,
+        "priority": 3,
+        "notes": "Maps to Management & Organisation Analyst (224212) — verify current list.",
+    },
+    "Health Policy Officer": {
+        "anzsco": "224111",
+        "pr_eligible": True,
+        "mltssl": True,
+        "priority": 2,
+        "notes": "Health Economist / Economist family (224111) — MLTSSL eligible.",
+    },
+    "Program Evaluation Officer": {
+        "anzsco": "224212",
+        "pr_eligible": True,
+        "mltssl": False,
+        "priority": 3,
+        "notes": "Organisation Analyst family (224212) — check current STSOL.",
+    },
     "Evaluation Specialist": {
         "anzsco": "224212",
         "pr_eligible": True,
@@ -143,13 +164,29 @@ _HIGH_IDF_TERMS = {
     "pbac", "qaly", "hta", "pharmacoeconomics", "cost-effectiveness",
     "health technology assessment", "cost utility", "aged care",
     "aihw", "aged-care", "functional health", "wellbeing economics",
+    # Ageing and population health
+    "ageing", "healthy ageing", "older adults", "retirement policy",
+    "functional decline", "iadl", "population ageing", "aged care need",
+    "preventive health", "health governance", "locus of control",
+    # Health policy and evaluation terms (target roles)
+    "health policy", "health economist", "health program", "health outcomes",
+    "program evaluation", "monitoring and evaluation", "evaluation framework",
+    "theory of change", "logic model", "impact evaluation",
+    "senior policy officer", "health policy officer", "policy officer",
+    "policy analysis", "policy framework", "policy advice",
+    "ministerial brief", "cabinet submission", "whole-of-government",
     # Research skills
     "nhmrc", "arc", "peer-reviewed", "postdoctoral", "post-doc",
-    "glm", "logit", "probit", "tobit",
+    "glm", "logit", "probit", "tobit", "propensity score",
+    "interrupted time series", "natural experiment", "counterfactual",
+    # Data terms specific to government/health
+    "linked data", "administrative data", "population data",
+    "health data", "medicare data", "pbs data", "survey data",
     # BI / data stack
     "power bi", "dax", "azure synapse", "bigquery", "snowflake", "looker",
-    # APS context
+    # APS / state government context
     "el1", "el2", "aps 5", "aps 6", "ministerial", "cabinet submission",
+    "state government", "territory government", "public sector",
 }
 
 _LOW_IDF_TERMS = {
@@ -369,10 +406,19 @@ def score_jobs(cv_text: str, jobs: list[dict]) -> list[dict]:
         s = calculate_match_score(
             cv_text, job.get("description",""), job.get("requirements","")
         )
-        # Boost score slightly for MLTSSL-eligible roles (Mohammad's PR priority)
         pr_info = PR_OCCUPATION_SCORES.get(job.get("category",""), {})
+        # MLTSSL roles get a +5 boost (strongest PR pathway)
         if pr_info.get("mltssl"):
             s = min(s + 5, 100)
+        # Government policy/evaluation roles that match target keywords get an extra boost
+        title_lower = job.get("title", "").lower()
+        _GOV_BOOST_TERMS = {
+            "policy officer", "policy analyst", "health policy",
+            "program evaluation", "evaluation officer", "research officer",
+            "health economist", "senior policy",
+        }
+        if any(t in title_lower for t in _GOV_BOOST_TERMS):
+            s = min(s + 3, 100)
         scored.append({**job, "match_score": s})
     return sorted(scored, key=lambda x: x["match_score"], reverse=True)
 
