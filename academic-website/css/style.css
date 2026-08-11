@@ -314,7 +314,7 @@ p { margin: 0 0 1rem; }
   box-shadow: var(--shadow-card);
   background: var(--color-paper-alt);
 }
-.hero-photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+.hero-photo-frame img { width: 100%; height: 100%; object-fit: cover; object-position: center 8%; }
 
 /* ---------- Buttons ---------- */
 
