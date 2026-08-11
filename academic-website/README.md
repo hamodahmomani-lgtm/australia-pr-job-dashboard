@@ -53,6 +53,28 @@ go to `github.dev/hamodahmomani-lgtm/australia-pr-job-dashboard` (same URL
 as the repo, with `github.com` swapped for `github.dev`) for a full
 VS Code–style editor in the browser, still committing straight to `main`.
 
+## Editing on your own computer with GitHub Desktop (no website, no command line)
+
+[GitHub Desktop](https://desktop.github.com) is a free official app that
+lets you edit files locally and sync them back with button clicks — no
+typing git commands, no using the GitHub website.
+
+1. Install GitHub Desktop and sign in with your GitHub account.
+2. **File → Clone repository**, choose
+   `hamodahmomani-lgtm/australia-pr-job-dashboard`, and pick a folder on
+   your computer to save it in.
+3. Open that folder in Finder/Explorer, go into `academic-website`, and
+   open whichever file you want to change in a plain-text editor — Notepad
+   (Windows), TextEdit set to *Format → Make Plain Text* (Mac), or a free
+   code editor like [VS Code](https://code.visualstudio.com) if you want
+   something that highlights HTML/JS syntax for you.
+4. Edit the text, save the file.
+5. Switch back to GitHub Desktop — it lists every file you changed. Type a
+   short summary in the box at the bottom left, click **Commit to main**,
+   then click **Push origin** at the top.
+6. The live site rebuilds automatically and updates within about a minute.
+   Hard-refresh (Ctrl/Cmd+Shift+R) if the browser still shows the old page.
+
 ## Editing content
 
 - **Publications, teaching, and map pins**: edit `js/data.js` only. Each
