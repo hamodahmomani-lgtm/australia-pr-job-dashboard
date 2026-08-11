@@ -31,6 +31,28 @@ academic-website/
 ├── netlify.toml, vercel.json
 ```
 
+## Making a change yourself (no coding tools required)
+
+The live site auto-redeploys on every push to `academic-website/**` on
+`main` (see `.github/workflows/deploy-pages.yml`), so the fastest way to
+change something is to edit the file directly on GitHub — no local setup
+needed:
+
+1. On github.com (works in the mobile app too), open the file you want to
+   change — see the file map below for which one that is.
+2. Tap the **pencil icon** (Edit this file) in the top right of the file view.
+3. Make the change directly in the text box.
+4. Scroll down, add a short commit message, and choose **Commit directly to
+   the `main` branch**.
+5. That's it — the deploy workflow picks it up automatically and the live
+   site updates within about a minute. Refresh with Ctrl/Cmd+Shift+R if the
+   old version still shows (browser/CDN caching).
+
+For bigger edits, prefer a real code editor over the small GitHub text box:
+go to `github.dev/hamodahmomani-lgtm/australia-pr-job-dashboard` (same URL
+as the repo, with `github.com` swapped for `github.dev`) for a full
+VS Code–style editor in the browser, still committing straight to `main`.
+
 ## Editing content
 
 - **Publications, teaching, and map pins**: edit `js/data.js` only. Each
