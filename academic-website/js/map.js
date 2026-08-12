@@ -41,7 +41,7 @@
     if (!mapEl || typeof L === "undefined" || typeof SITE_DATA === "undefined") { return; }
 
     var map = L.map(mapEl, {
-      scrollWheelZoom: false,
+      scrollWheelZoom: true,
       worldCopyJump: true
     }).setView([25, 30], 2);
 
@@ -50,10 +50,6 @@
       subdomains: "abcd",
       maxZoom: 19
     }).addTo(map);
-
-    map.scrollWheelZoom.disable();
-    mapEl.addEventListener("click", function () { map.scrollWheelZoom.enable(); });
-    mapEl.addEventListener("mouseleave", function () { map.scrollWheelZoom.disable(); });
 
     var layersByCategory = {};
 
