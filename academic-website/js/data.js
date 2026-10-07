@@ -247,25 +247,20 @@ var SITE_DATA = {
   // ---------------------------------------------------------------------
   teaching: [
     {
-      course: "Innovation Academy in Digital Business — Agile, DevOps & Design Thinking",
+      course: "Sessional Lecturer — Adelaide-Accenture Innovation Academy for Digital Business",
       institution: "Adelaide University, in partnership with Accenture",
       level: "Professional / postgraduate short-course",
       years: "2025 – present",
-      description: "Academic lead for course design and delivery of Agile, DevOps and Design Thinking training under the Accenture–Adelaide University partnership, including leading course redevelopment. [Add specific unit/course codes.]"
+      description: "Teaches business and digital-business subjects at the Adelaide–Accenture Innovation Academy for Digital Business.",
+      courses: ["Digital Solution Methodologies", "Introduction to Digital Disruption in Business", "Management, Organisations and Leadership", "Negotiation, Conflict Management and Resolution"]
     },
     {
-      course: "Economics, econometrics, statistics and applied research methods",
+      course: "Sessional Lecturer — Economics and Business Data",
       institution: "College of Business, Government and Law, Flinders University",
       level: "Undergraduate and postgraduate",
       years: "2024 – present",
-      description: "Teaching academic covering economics, applied econometrics, statistics, data analysis and applied research methods for business and economics students. [Add specific unit/course codes.]"
-    },
-    {
-      course: "Undergraduate economics — coding, data analysis and digital business methods",
-      institution: "Flinders University / Adelaide University",
-      level: "Undergraduate",
-      years: "2024 – present",
-      description: "Supports coursework connecting economic reasoning with coding for business, digital business practice and data analysis, complementing core econometrics teaching. [Add specific unit/course codes.]"
+      description: "Teaches economics and business data subjects. Redevelops and maintains the Canvas course site for Interpreting and Visualising Business Data, restructuring modules and updating lecture materials, assessments and quizzes on an ongoing basis.",
+      courses: ["Assessing Economic Environments", "Applying Economics for Business", "Coding for Business (Python)", "Interpreting and Visualising Business Data", "Pre-Masters Business Program"]
     },
     {
       course: "Undergraduate economics (teaching assistant)",
@@ -298,14 +293,14 @@ var SITE_DATA = {
         {
           year: "2025 – present",
           org: "Adelaide University",
-          role: "Teaching Academic",
-          topic: "Lead, Innovation Academy in Digital Business — Agile, DevOps and Design Thinking (Accenture partnership)"
+          role: "Sessional Lecturer",
+          topic: "Adelaide–Accenture Innovation Academy for Digital Business — business and digital-business subjects"
         },
         {
           year: "2024 – present",
           org: "Flinders University, College of Business, Government and Law",
-          role: "Teaching Academic",
-          topic: "PhD in Economics (2025); teaching in economics, econometrics and applied research methods"
+          role: "Sessional Lecturer",
+          topic: "PhD in Economics (2025); economics and business-data subjects"
         }
       ]
     },

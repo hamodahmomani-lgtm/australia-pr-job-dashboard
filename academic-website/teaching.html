@@ -84,12 +84,16 @@
       });
     }
     wrap.innerHTML = SITE_DATA.teaching.map(function (t) {
+      var courseTags = (t.courses || [])
+        .map(function (c) { return '<span class="tag">' + esc(c) + "</span>"; })
+        .join("");
       return (
         '<div class="teach-item">' +
           "<h3>" + esc(t.course) + "</h3>" +
           '<div class="teach-years">' + esc(t.years) + "</div>" +
           '<div class="teach-inst">' + esc(t.institution) + " &middot; " + esc(t.level) + "</div>" +
           '<p class="teach-desc">' + esc(t.description) + "</p>" +
+          (courseTags ? '<div class="pill-row">' + courseTags + "</div>" : "") +
         "</div>"
       );
     }).join("");

@@ -526,6 +526,7 @@ details.pub-abstract-toggle[open] summary::before { content: "– "; }
 .teach-item .teach-years { font-family: var(--font-sans); font-size: 0.85rem; color: var(--color-text-muted); grid-column: 2; text-align: right; white-space: nowrap; }
 .teach-item .teach-inst { grid-column: 1 / -1; font-size: 0.9rem; color: var(--color-text-muted); margin-bottom: 0.3rem; }
 .teach-item p.teach-desc { grid-column: 1 / -1; margin: 0.3rem 0 0; font-size: 0.94rem; }
+.teach-item .pill-row { grid-column: 1 / -1; margin-top: 0.5rem; }
 @media (max-width: 560px) {
   .teach-item { grid-template-columns: 1fr; }
   .teach-item .teach-years { text-align: left; grid-column: 1; }
