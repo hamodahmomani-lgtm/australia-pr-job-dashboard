@@ -3,8 +3,8 @@
 // colour-coded by category, with a legend that toggles each layer.
 (function () {
   var CATEGORY_META = {
-    academic: { label: "Teaching & academic appointments", color: "#1f3a5f" },
-    conference: { label: "Conferences", color: "#8a6d3b" },
+    academic: { label: "Teaching & academic appointments", color: "#2f4238" },
+    conference: { label: "Conferences", color: "#b5542a" },
     industry: { label: "Industry", color: "#7a4b3a" },
     dataset: { label: "Datasets (data geography)", color: "#3f6659" }
   };
