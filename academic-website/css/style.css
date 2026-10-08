@@ -32,7 +32,7 @@
   --color-paper: #12182a;
   --color-paper-alt: #161f35;
   --color-card: #182036;
-  --color-border: #2b3550;
+  --color-border: #586c93;
   --color-text: #e8e6df;
   --color-text-muted: #a9b0c0;
   --color-accent: #d4b876;
@@ -47,7 +47,7 @@
     --color-paper: #12182a;
     --color-paper-alt: #161f35;
     --color-card: #182036;
-    --color-border: #2b3550;
+    --color-border: #586c93;
     --color-text: #e8e6df;
     --color-text-muted: #a9b0c0;
     --color-accent: #d4b876;
@@ -103,12 +103,18 @@ h1, h2, h3, h4 {
 :root[data-theme="dark"] h1,
 :root[data-theme="dark"] h2,
 :root[data-theme="dark"] h3,
-:root[data-theme="dark"] h4 { color: #f2efe6; }
+:root[data-theme="dark"] h4,
+:root[data-theme="dark"] .quicklink .ql-title,
+:root[data-theme="dark"] .theme-card .methods strong,
+:root[data-theme="dark"] .cv-entry .cv-entry-title { color: #f2efe6; }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) h1,
   :root:not([data-theme="light"]) h2,
   :root:not([data-theme="light"]) h3,
-  :root:not([data-theme="light"]) h4 { color: #f2efe6; }
+  :root:not([data-theme="light"]) h4,
+  :root:not([data-theme="light"]) .quicklink .ql-title,
+  :root:not([data-theme="light"]) .theme-card .methods strong,
+  :root:not([data-theme="light"]) .cv-entry .cv-entry-title { color: #f2efe6; }
 }
 
 h1 { font-size: clamp(1.9rem, 3.2vw, 2.7rem); }

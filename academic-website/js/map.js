@@ -41,15 +41,28 @@
     if (!mapEl || typeof L === "undefined" || typeof SITE_DATA === "undefined") { return; }
 
     var map = L.map(mapEl, {
-      scrollWheelZoom: true,
+      scrollWheelZoom: false,
       worldCopyJump: true
     }).setView([25, 30], 2);
 
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png", {
+    // Scroll-wheel zoom only activates after a click, so scrolling the
+    // page past the map doesn't get hijacked into zooming it.
+    mapEl.addEventListener("click", function () { map.scrollWheelZoom.enable(); });
+    mapEl.addEventListener("mouseleave", function () { map.scrollWheelZoom.disable(); });
+
+    var darkMedia = window.matchMedia("(prefers-color-scheme: dark)");
+    var tileLayer = L.tileLayer("", {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
       subdomains: "abcd",
       maxZoom: 19
     }).addTo(map);
+
+    function applyTileStyle() {
+      var style = darkMedia.matches ? "dark_all" : "light_all";
+      tileLayer.setUrl("https://{s}.basemaps.cartocdn.com/" + style + "/{z}/{x}/{y}{r}.png");
+    }
+    applyTileStyle();
+    if (darkMedia.addEventListener) { darkMedia.addEventListener("change", applyTileStyle); }
 
     var layersByCategory = {};
 
