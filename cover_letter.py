@@ -195,6 +195,131 @@ TEMPLATES: dict[str, dict[str, str]] = {
         ),
     },
 
+    "Senior Policy Officer": {
+        "opening": (
+            "I am writing to apply for the {job_title} position at {organization}. "
+            "With a PhD in Economics, a strong record of evidence-based research "
+            "on health, ageing, and social policy, and substantial experience "
+            "translating complex analysis into actionable policy recommendations, "
+            "I offer {organization} the analytical depth and communication skills "
+            "expected of a senior officer in the public sector."
+        ),
+        "body_1": (
+            "My published research directly addresses the kinds of policy questions "
+            "that state and federal governments prioritise — how retirement policy "
+            "shapes functional health outcomes, how education investment reduces "
+            "aged-care demand, and how preventive health expenditure affects "
+            "long-term system costs. I am proficient in {key_skill_1} and "
+            "{key_skill_2}, and I produce technically rigorous analysis that I "
+            "routinely communicate to non-specialist audiences, including at "
+            "ministerial-level forums and international research conferences. "
+            "I understand the APS and state-government evidence culture and "
+            "am experienced in drafting policy briefs, consultation documents, "
+            "and strategic frameworks."
+        ),
+        "body_2": (
+            "Over {years_experience} years spanning academic research, industry "
+            "analysis, and university teaching, I have managed projects from "
+            "conception to final report, worked across disciplinary boundaries, "
+            "and delivered high-quality outputs under tight timelines. "
+            "I am familiar with the datasets and analytical infrastructure most "
+            "relevant to Australian government work — HILDA, ALSWH, AIHW "
+            "administrative data — and I am comfortable engaging with regulatory "
+            "frameworks, legislative context, and whole-of-government coordination. "
+            "I classify at the APS EL1/EL2 level and have worked effectively "
+            "in both collaborative team environments and as an independent researcher."
+        ),
+        "closing_statement": (
+            "I am motivated by the opportunity to apply rigorous evidence-based "
+            "analysis to policies that make a real difference for Australians. "
+            "I look forward to bringing my commitment to policy excellence "
+            "and stakeholder engagement to {organization}."
+        ),
+    },
+
+    "Health Policy Officer": {
+        "opening": (
+            "I am writing to apply for the {job_title} at {organization}. "
+            "With a PhD in Economics specialising in health economics and ageing, "
+            "ten peer-reviewed publications on health outcomes and policy, "
+            "and deep familiarity with Australia's health system — including "
+            "AIHW datasets, Medicare, PBS, and aged care financing — I am "
+            "well placed to contribute robust health policy analysis to {organization}."
+        ),
+        "body_1": (
+            "My research programme sits squarely at the intersection of health "
+            "economics and public policy. I have investigated how education and "
+            "retirement policy shape functional health, wellbeing, and aged-care "
+            "demand in older Australians; how preventive health interventions "
+            "affect long-term health system costs; and how social determinants "
+            "of health operate across the life course. I am proficient in "
+            "{key_skill_1} and {key_skill_2}, and I apply cost-effectiveness "
+            "analysis, HTA methodology, and causal-inference econometrics to "
+            "generate findings that meet PBAC and AIHW evidence standards. "
+            "I communicate technical health economics clearly to non-specialist "
+            "policy and clinical stakeholders."
+        ),
+        "body_2": (
+            "With {years_experience} years of combined research, teaching, and "
+            "industry experience, I have a demonstrated track record of delivering "
+            "analysis that bridges academic rigour and policy relevance. "
+            "My involvement in Netspar, NIH/NIA-funded research networks, and the "
+            "SHARE-Gateway collaboration has given me a broad perspective on "
+            "international health and ageing policy that enriches my Australian "
+            "work. I am currently affiliated with the Global Labor Organization "
+            "and maintain an active publication pipeline on aged care, preventive "
+            "health, and wellbeing economics."
+        ),
+        "closing_statement": (
+            "I am deeply committed to evidence-driven health policy that improves "
+            "outcomes for Australians — particularly in aged care, preventive "
+            "health, and chronic disease. I would welcome the chance to discuss "
+            "how my background aligns with {organization}'s health policy agenda."
+        ),
+    },
+
+    "Program Evaluation Officer": {
+        "opening": (
+            "I am excited to apply for the {job_title} at {organization}. "
+            "My PhD training in applied econometrics — specialising in causal "
+            "identification strategies including instrumental variables, "
+            "regression discontinuity, difference-in-differences, and event "
+            "study designs — equips me with the rigorous methodological toolkit "
+            "needed to design, conduct, and report program evaluations that "
+            "deliver credible evidence for government decision-making."
+        ),
+        "body_1": (
+            "I have applied these methods to evaluate the effects of retirement "
+            "policy on functional health and aged-care demand, the causal impact "
+            "of education on health outcomes across the life course, and the "
+            "influence of household and community factors on child development. "
+            "My expertise in {key_skill_1} and {key_skill_2} allows me to design "
+            "evaluations that isolate program effects from confounders — a critical "
+            "requirement for credible public program evaluation. I am comfortable "
+            "working with logic models, theory of change frameworks, performance "
+            "measurement systems, and mixed-methods designs, and I have reported "
+            "evaluation findings to academic, government, and general-public audiences."
+        ),
+        "body_2": (
+            "Across {years_experience} years in research and industry roles, "
+            "I have combined strong technical skills (Stata, Python, R) with "
+            "clear written and verbal communication. I have worked with large "
+            "longitudinal datasets — SHARE, HILDA, ALSWH — that closely resemble "
+            "the administrative and program data typical in government evaluation "
+            "contexts. I am experienced in designing data collection instruments, "
+            "managing multi-wave data cleaning, and producing reproducible "
+            "analysis workflows. I am familiar with APS and state government "
+            "evaluation frameworks and understand the accountability and reporting "
+            "requirements of publicly funded program evaluations."
+        ),
+        "closing_statement": (
+            "I am passionate about using high-quality evaluation evidence to "
+            "drive genuine improvement in public programs and to ensure government "
+            "investment delivers measurable outcomes for Australians. "
+            "I look forward to contributing that commitment to {organization}."
+        ),
+    },
+
     "Policy Analyst": {
         "opening": (
             "I am writing to apply for the {job_title} role at {organization}. "
