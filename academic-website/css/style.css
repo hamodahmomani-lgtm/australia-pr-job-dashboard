@@ -695,6 +695,7 @@ details.pub-abstract-toggle[open] summary::before { content: "– "; }
 .contact-item h3 { margin: 0 0 0.2rem; font-size: 1rem; }
 .contact-item p { overflow-wrap: anywhere; word-break: break-word; }
 .contact-item .placeholder-note { font-size: 0.78rem; color: var(--color-accent-dark); font-style: italic; overflow-wrap: anywhere; }
+.contact-item .placeholder-link { color: var(--color-text-muted); border-bottom: 1px dashed var(--color-border); display: inline-block; }
 
 /* ---------- Utility ---------- */
 
