@@ -45,10 +45,34 @@
       worldCopyJump: true
     }).setView([25, 30], 2);
 
-    // Scroll-wheel zoom only activates after a click, so scrolling the
-    // page past the map doesn't get hijacked into zooming it.
-    mapEl.addEventListener("click", function () { map.scrollWheelZoom.enable(); });
-    mapEl.addEventListener("mouseleave", function () { map.scrollWheelZoom.disable(); });
+    // Dragging, pin clicks and double-click zoom all work immediately —
+    // no click-to-activate step needed. Plain scrolling over the map
+    // scrolls the page as normal; holding Ctrl (Cmd on Mac) while
+    // scrolling zooms the map instead, the same convention used by
+    // Google Maps embeds, so the page never gets scroll-hijacked.
+    var hint = document.createElement("div");
+    hint.className = "map-zoom-hint";
+    hint.textContent = "Use Ctrl + scroll (⌘ + scroll on Mac) to zoom the map";
+    mapEl.appendChild(hint);
+    var hintTimer = null;
+    function flashHint() {
+      hint.classList.add("is-visible");
+      if (hintTimer) { clearTimeout(hintTimer); }
+      hintTimer = setTimeout(function () { hint.classList.remove("is-visible"); }, 1400);
+    }
+
+    mapEl.addEventListener("wheel", function (e) {
+      if (e.ctrlKey || e.metaKey) {
+        e.preventDefault();
+        var delta = e.deltaY < 0 ? 1 : -1;
+        var rect = mapEl.getBoundingClientRect();
+        var point = L.point(e.clientX - rect.left, e.clientY - rect.top);
+        var latlng = map.containerPointToLatLng(point);
+        map.setZoomAround(latlng, map.getZoom() + delta);
+      } else {
+        flashHint();
+      }
+    }, { passive: false });
 
     var darkMedia = window.matchMedia("(prefers-color-scheme: dark)");
     var tileLayer = L.tileLayer("", {

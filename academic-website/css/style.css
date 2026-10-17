@@ -1,28 +1,27 @@
 /* =========================================================================
    Mohammad Almomani — Academic website
-   Design system: pine ink + warm ivory + terracotta accent, serif/humanist
-   stack. No external font or icon requests — everything renders from
-   system fonts and inline SVG so the site stays fast and works offline
-   once cached.
+   Design system: pine ink + white paper + terracotta accent, Lora/Source
+   Sans type pairing (loaded from Google Fonts, with a system-font fallback
+   stack so the page still reads correctly if that request is blocked).
    ========================================================================= */
 
 :root {
   --color-ink: #1c2b24;
   --color-ink-soft: #2f4238;
   --color-heading: #1c2b24;
-  --color-paper: #f8f4ec;
-  --color-paper-alt: #efe7d8;
+  --color-paper: #ffffff;
+  --color-paper-alt: #f3f1ea;
   --color-card: #ffffff;
   --color-border: #8f7a54;
-  --color-text: #26231f;
-  --color-text-muted: #6b6155;
+  --color-text: #262521;
+  --color-text-muted: #635c4f;
   --color-accent: #b5542a;
   --color-accent-dark: #8f3f1c;
   --color-accent-soft: #e0a06e;
   --color-focus: #1d6fa5;
 
-  --font-serif: Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, "URW Palladio", serif;
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Lora", Georgia, "Iowan Old Style", "Palatino Linotype", Palatino, "URW Palladio", serif;
+  --font-sans: "Source Sans 3", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
   --max-width: 1120px;
   --radius: 3px;
@@ -111,7 +110,7 @@ h1 { font-size: clamp(1.9rem, 3.2vw, 2.7rem); }
 h2 { font-size: clamp(1.4rem, 2.2vw, 1.9rem); }
 h3 { font-size: 1.2rem; }
 
-p { margin: 0 0 1rem; }
+p { margin: 0 0 1rem; text-wrap: pretty; }
 
 .container {
   max-width: var(--max-width);
@@ -351,7 +350,7 @@ section + section { border-top: 1px solid var(--color-border); }
 .card {
   background: var(--color-card);
   border: 1px solid var(--color-border);
-  border-top: 3px solid var(--color-accent-soft);
+  border-left: 3px solid var(--color-accent-soft);
   border-radius: var(--radius);
   padding: 1.6rem;
   box-shadow: var(--shadow-card);
@@ -528,6 +527,7 @@ details.pub-abstract-toggle[open] summary::before { content: "– "; }
 /* ---------- Map / conferences ---------- */
 
 #map {
+  position: relative;
   height: 520px;
   width: 100%;
   border-radius: var(--radius);
@@ -535,6 +535,25 @@ details.pub-abstract-toggle[open] summary::before { content: "– "; }
   background: var(--color-paper-alt);
 }
 @media (max-width: 640px) { #map { height: 420px; } }
+
+.map-zoom-hint {
+  position: absolute;
+  z-index: 1000;
+  left: 50%;
+  top: 1rem;
+  transform: translateX(-50%);
+  background: rgba(28, 43, 36, 0.88);
+  color: #fdfcf9;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+.map-zoom-hint.is-visible { opacity: 1; }
 
 .map-legend {
   display: flex;
